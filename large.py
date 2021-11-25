@@ -1,4 +1,5 @@
 import lecture
+import numpy as np
 
 fichier = "KIRO-large.json"
 fichier_sol = "solution_large.json"
@@ -32,4 +33,43 @@ def solution_sans_saturation(instances):
     
     return solution
 
-lecture.ecrire_instances(solution_sans_saturation(instances), fichier_sol)
+def solution_heuristique_1(instances):
+    solution = dict.fromkeys(["productionCenters","distributionCenters","clients"])
+    solution["productionCenters"] = []
+    solution["distributionCenters"] = []
+    solution["clients"] = []
+    
+    demande_totale = 0
+    for j in instances["clients"]:
+        demande_totale += j["demand"]
+    nb_usines_total = int(demande_totale//(instances["parameters"]["capacities"]["productionCenter"] + instances["parameters"]["capacities"]["automationBonus"]) + 1)
+
+    usines = instances["sites"]
+    clients_deja_visites = []
+    
+    for i in range(nb_usines_total):
+        usine = np.random.choice(usines)
+        solution["productionCenters"].append({"id" : usine["id"], "automation" : 1})
+        usines.remove(usine)
+        distances = instances["siteClientDistances"][usine["id"]-1]
+        
+        for client in clients_deja_visites :
+            distances[client["id"]-1] = 5000000000
+            
+        production = 0
+        capacity  = instances["parameters"]["capacities"]["productionCenter"] + instances["parameters"]["capacities"]["automationBonus"]
+        while(production < capacity):
+            client_plus_proche = np.argmin(distances)
+            distances[client_plus_proche] = 5000000000
+            cl = instances["clients"][client_plus_proche]
+            clients_deja_visites.append(cl)
+            production += instances["clients"][client_plus_proche]["demand"]
+            solution["clients"].append({"id" : cl["id"], "parent": usine["id"]})
+        
+    return solution
+            
+        
+    
+print(solution_heuristique_1(instances))   
+
+lecture.ecrire_instances(solution_heuristique_1(instances), fichier_sol)
