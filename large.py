@@ -49,7 +49,10 @@ def solution_heuristique_1(instances):
     
     for i in range(nb_usines_total):
         usine = np.random.choice(usines)
-        solution["productionCenters"].append({"id" : usine["id"], "automation" : 1})
+        if i < nb_usines_total -1:
+            solution["productionCenters"].append({"id" : usine["id"], "automation" : 1})
+        else :
+            solution["productionCenters"].append({"id" : usine["id"], "automation" : 0})
         usines.remove(usine)
         distances = instances["siteClientDistances"][usine["id"]-1]
         
@@ -58,7 +61,7 @@ def solution_heuristique_1(instances):
             
         production = 0
         capacity  = instances["parameters"]["capacities"]["productionCenter"] + instances["parameters"]["capacities"]["automationBonus"]
-        while(production < capacity):
+        while(production < capacity and len(clients_deja_visites) < len(instances["clients"])):
             client_plus_proche = np.argmin(distances)
             distances[client_plus_proche] = 5000000000
             cl = instances["clients"][client_plus_proche]
@@ -67,9 +70,21 @@ def solution_heuristique_1(instances):
             solution["clients"].append({"id" : cl["id"], "parent": usine["id"]})
         
     return solution
-            
+
+def remplir_usine(usine, clients):
+    distances  = instances["siteClientDistances"][usine["id"]-1]
+    for i in clients:
+        distances[i["id"]-1] = 5000000000
+    production = 0
+    capacity = instances["parameters"]["capacities"]["productionCenter"] + instances["parameters"]["capacities"]["automationBonus"]
+    clients_nouveaux = []
+    while(production < capacity and len(clients)+len(clients_nouveaux) < len(instances["clients"])):
+        new_client = np.argmin(distances)
+        distances[new_client] = 5000000000
+        production += instances["clients"][new_client]["demand"]
+        clients_nouveaux.append(instances["clients"][new_client])
         
-    
-print(solution_heuristique_1(instances))   
+    return clients_nouveaux
+
 
 lecture.ecrire_instances(solution_heuristique_1(instances), fichier_sol)
