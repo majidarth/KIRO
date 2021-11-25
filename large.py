@@ -73,3 +73,34 @@ def solution_heuristique_1(instances):
 print(solution_heuristique_1(instances))   
 
 lecture.ecrire_instances(solution_heuristique_1(instances), fichier_sol)
+
+
+def solution_heuristique_main_1(instances):
+    solution = dict.fromkeys(["productionCenters", "distributionCenters", "clients"])
+    solution["productionCenters"] = []
+    solution["distributionCenters"] = []
+    solution["clients"] = []
+
+    centres_prod_ids = [4, 7, 2, 30, 19, 39, 33, 12, 38,59, 36, 18, 25, 56, 44, 16, 37]
+    clients_satisfaits = []
+    for id in centres_prod_ids:
+        solution["productionCenters"].append({"id": id, "automation":1})
+        site = instances["sites"][id]
+        nouveaux_clients_satisfaits = []
+        clients_satisfaits.append(nouveaux_clients_satisfaits)
+
+
+    for centre in centres_prod:
+
+
+        for client in nouveaux_clients_satisfaits:
+            id = client["id"]
+            solution["clients"].append({"id":id, "parent":centre})
+
+
+
+
+
+
+
+    return solution

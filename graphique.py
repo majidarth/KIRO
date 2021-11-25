@@ -38,7 +38,7 @@ G_sites.add_nodes_from(sites)
 fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 # pos = clients_pos
 # pos.update(sites_pos)
-nx.draw(G_clients, pos=clients_pos,  with_labels = False, node_color='lightblue', ax = ax)
+nx.draw(G_clients, pos=clients_pos,  with_labels = False, node_color='lightblue', ax = ax, node_size = 50)
 nx.draw(G_sites, pos=sites_pos,  with_labels = True, node_color='red', ax = ax)
 
 print(len(sites))
