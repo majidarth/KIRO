@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 25 14:29:58 2021
+import lecture
 
-@author: thoma
-"""
-
+fichier = "KIRO-tiny.json"
+instances = lecture.lire_instances(fichier)
