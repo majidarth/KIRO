@@ -14,4 +14,5 @@ def solution_triviale(instances):
     solution["clients"] = clients
     return solution
 
+
 lecture.ecrire_instances(solution_triviale(instances), fichier_sol)
