@@ -1,7 +1,7 @@
 import lecture
 
-fichier = "KIRO-tiny.json"
-fichier_sol = "solution_tiny.json"
+fichier = "KIRO-large.json"
+fichier_sol = "solution_large.json"
 instances = lecture.lire_instances(fichier)
 
 def solution_triviale(instances):

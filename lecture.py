@@ -5,3 +5,6 @@ def lire_instances(instances):
         instances_enonce = json.load(file)
     return instances_enonce
     
+def ecrire_instances(solution,fichier):
+    with open(fichier, "w") as file:
+        json.dump(solution,file)
