@@ -1,5 +1,6 @@
 import lecture
 import numpy as np
+import random as rd
 
 fichier = "KIRO-large.json"
 fichier_sol = "solution_large.json"
@@ -97,20 +98,28 @@ def solution_heuristique_main_1(instances):
     solution["clients"] = []
 
     centres_prod_ids = [4, 7, 2, 30, 19, 39, 33, 12, 38,59, 36, 18, 25, 56, 44, 16, 37]
+    rd.shuffle(centres_prod_ids)
     clients_satisfaits = []
     i= 0
     for id_usine in centres_prod_ids:
         i+=1
         solution["productionCenters"].append({"id": id_usine, "automation":1})
-        usine = instances["sites"][id_usine]
-        print(i)
-        print(usine)
-        print(clients_satisfaits)
+        for site in instances["sites"]:
+            if (site["id"] == id_usine):
+                usine = site
         nouveaux_clients_satisfaits = remplir_usine(usine, clients_satisfaits)
         clients_satisfaits+=nouveaux_clients_satisfaits
         for client in nouveaux_clients_satisfaits:
             id_client = client["id"]
             solution["clients"].append({"id":id_client, "parent":id_usine})
+
+    ins_clients = instances["clients"]
+    for ins_client in ins_clients:
+        is_in_sol = False
+        for client in solution["clients"]:
+            is_in_sol = (ins_client["id"] == client["id"])
+            if is_in_sol : break
+        if (not is_in_sol) : print("ERROR")
 
     return solution
 

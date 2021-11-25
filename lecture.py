@@ -7,4 +7,4 @@ def lire_instances(instances):
     
 def ecrire_instances(solution,fichier):
     with open(fichier, "w") as file:
-        json.dump(solution,file)
+        json.dump(solution,file, indent=4)
