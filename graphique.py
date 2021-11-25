@@ -13,7 +13,7 @@ class Node():
         return f"{self.type}_{self.id}"
 
 
-instance = lire_instances("Kiro-tiny.json")
+instance = lire_instances("Kiro-small.json")
 
 
 G = nx.Graph()
@@ -34,8 +34,9 @@ G.add_nodes_from(sites)
 
 # Tracé
 
+fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 pos = clients_pos
 pos.update(sites_pos)
-nx.draw(G, pos=pos,  with_labels = True, node_color='lightblue')
+nx.draw(G, pos=pos,  with_labels = True, node_color='lightblue', ax = ax)
 
 plt.show()
